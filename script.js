@@ -1,9 +1,13 @@
 document.addEventListener('DOMContentLoaded', function() {
+    const searchBox = document.querySelector('.search-box input');
+    const searchButton = document.querySelector('.button');
     const form = document.querySelector('.search-box');
     const input = form.querySelector('input[type="search');
-    const resultContainer = document.querySelector('.results');
+    const resultContainer = document.querySelector('.result');
     const resultCounter = document.querySelector('header p');
-    form.addEventListener('submit', function(event) {
+
+    let data = [];
+    form.addEventListener('.button', function(event) {
         event.preventDefault();
         const searchTerm =  input.ariaValueMax;
         if (searchTerm) {
@@ -11,13 +15,30 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    function searchCSV(searchTerm) {
-        const url = '';
-        fetch(url).then(respone => respone.json()).then (data => {
-            displayResults(data.query.search);
-        }).catch(error => alert('Error : ' + error));
+    async function loadData() {
+        const url = 'chuyen_khoan.csv'
+        try {
+            const response = await fetch(url);
+            const text = await response.text();
+            parseCSV(text);
+        }
+        catch(error) {
+            console.error("Loi tai du lieu ");
+        }
     }
 
+    function parseCSV(csv) {
+        const lines = csv.split("\n");
+        const headers = lines[0].split(",");
+
+        data = lines.slice(1).map(line => {
+            const value = line.split(",");
+            let obj = {};
+            headers.forEach((header, index) => {
+                object[header.trim()]
+            })
+        })
+    }
     function displayResults(results) {
         resultContainer.innerHTML = '';
         resultCounter.textContent = `Results Count : ${results.length}`;
